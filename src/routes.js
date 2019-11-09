@@ -17,11 +17,13 @@
 */
 import Index from "views/Index.jsx";
 import Profile from "views/examples/Profile.jsx";
-import Maps from "views/examples/Maps.jsx";
 import Register from "views/examples/Register.jsx";
-import Login from "views/examples/Login.jsx";
+import Login from "views/admin/Login.jsx";
 import Tables from "views/examples/Tables.jsx";
 import Icons from "views/examples/Icons.jsx";
+// 
+import Voters from "views/admin/Voters.jsx"
+import AddVoters from "views/admin/AddVoters.jsx"
 
 var routes = [
   {
@@ -30,19 +32,26 @@ var routes = [
     icon: "ni ni-tv-2 text-primary",
     component: Index,
     layout: "/admin"
+  },{
+    path: "/voters",
+    name: "Voters",
+    icon: "ni ni-tv-2 text-primary",
+    component: Voters,
+    layout: "/admin",
+    // invisible: true
+  },{
+    path: "/addvoters",
+    name: "AddVoters",
+    icon: "ni ni-tv-2 text-primary",
+    component: AddVoters,
+    layout: "/admin",
+    // invisible: true
   },
   {
     path: "/icons",
     name: "Icons",
     icon: "ni ni-planet text-blue",
     component: Icons,
-    layout: "/admin"
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
     layout: "/admin"
   },
   {

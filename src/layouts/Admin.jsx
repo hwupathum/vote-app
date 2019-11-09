@@ -38,7 +38,7 @@ class Admin extends React.Component {
         return (
           <Route
             path={prop.layout + prop.path}
-            component={prop.component}
+            render={() => <prop.component/>}
             key={key}
           />
         );

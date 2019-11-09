@@ -26,13 +26,49 @@ import "assets/scss/argon-dashboard-react.scss";
 import AdminLayout from "layouts/Admin.jsx";
 import AuthLayout from "layouts/Auth.jsx";
 
+import { createStore, applyMiddleware, compose } from 'redux';
+import rootReducer from "./store/reducers/rootReducer";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import { reduxFirestore, getFirestore, createFirestoreInstance } from "redux-firestore";
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import fbConfig from "./config/fbConfig";
+
+// create store with middleware
+const middleWares = [thunk.withExtraArgument(getFirestore)];
+const enhancers = [applyMiddleware(...middleWares), reduxFirestore(fbConfig)];
+
+
+// react-redux-firebase config
+const rrfConfig = {
+  // userProfile: 'users',
+  useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+};
+
+// Create store with reducers
+const store = createStore(
+  rootReducer, 
+  compose(...enhancers)
+);
+
+const rrfProps = {
+  firebase: fbConfig,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance // <- needed if using firestore
+}
+
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route path="/admin" render={props => <AdminLayout {...props} />} />
-      <Route path="/auth" render={props => <AuthLayout {...props} />} />
-      <Redirect from="/" to="/admin/index" />
-    </Switch>
-  </BrowserRouter>,
+  <Provider store={store}>
+    <ReactReduxFirebaseProvider {...rrfProps}>
+      <BrowserRouter>
+          <Switch>
+            <Route path="/admin" render={props => <AdminLayout {...props} />} />
+            <Route path="/auth" render={props => <AuthLayout {...props} />} />
+            <Redirect from="/" to="/admin/index" />
+          </Switch>
+        </BrowserRouter>
+    </ReactReduxFirebaseProvider>
+  </Provider>,
   document.getElementById("root")
 );

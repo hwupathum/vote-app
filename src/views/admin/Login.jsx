@@ -44,7 +44,7 @@ class Login extends React.Component {
                 <small>Sign in with</small>
               </div>
               <div className="btn-wrapper text-center">
-                <Button
+                {/* <Button
                   className="btn-neutral btn-icon"
                   color="default"
                   href="#pablo"
@@ -71,7 +71,7 @@ class Login extends React.Component {
                     />
                   </span>
                   <span className="btn-inner--text">Google</span>
-                </Button>
+                </Button> */}
               </div>
             </CardHeader>
             <CardBody className="px-lg-5 py-lg-5">
