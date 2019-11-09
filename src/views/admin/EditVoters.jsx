@@ -24,7 +24,7 @@ import Header from "components/Headers/Header.jsx";
 import VotersForm from "components/Forms/VotersForm.jsx"
 
 // actions
-import {addVotersAction} from "../../store/actions/votersActions.jsx"
+import {edidVotersAction} from "../../store/actions/votersActions.jsx"
 
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose, bindActionCreators } from "redux";
@@ -32,14 +32,21 @@ import { connect } from "react-redux";
 import moment from "moment";
 
 class AddVoters extends React.Component {
+    //  get id of the current voter
+    voterId = new URLSearchParams(window.location.search).get('id');
+
     handleSubmit = values => {
         const DOB = moment(values.DOB).toDate()
         const division = parseInt(values.division)
-        this.props.addVoters({...values, DOB, division});
+        this.props.editVoter({...values, DOB, division}, this.voterId);
+        // console.log({...values, DOB, division})
     }
 	render() {
-		const {config} = this.props;
-		if(!isLoaded(config)) return null;
+		const {config, voters} = this.props;
+        if(!isLoaded(config) || !isLoaded(voters)) return null;
+        const initValues = voters[this.voterId];
+        const DOB = moment(initValues.DOB.toMillis()).format("YYYY-MM-DD")
+        // console.log(DOB)
 		return (
 		<>
 			<Header />
@@ -47,7 +54,7 @@ class AddVoters extends React.Component {
 			<Container className="mt--7" fluid>
 				<Row>
 					<div className="col">
-						<VotersForm title="Add Voters" config={config.config_main} onSubmit={this.handleSubmit} initialValues={null}/>
+						<VotersForm title="Edit Voters" config={config.config_main} onSubmit={this.handleSubmit} initValues={{...initValues, DOB}}/>
 					</div>
 				</Row>
 			</Container>
@@ -60,14 +67,15 @@ const mapStateToProps = (state) => {
 	return {
 		// auth: state.auth.key,
 		config: state.firestore.data.Config,
+		voters: state.firestore.data.Voter,
 	}
 };
 
 const mapDispatchToProps = dispatch => ({
-    addVoters: bindActionCreators(addVotersAction, dispatch),
+    editVoter: bindActionCreators(edidVotersAction, dispatch),
   });
 
 export default compose(
 	connect(mapStateToProps,mapDispatchToProps),
-	firestoreConnect(['Config'])
+	firestoreConnect(['Config', 'Voter'])
 )(AddVoters);

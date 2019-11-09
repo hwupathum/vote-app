@@ -19,32 +19,45 @@ import React from "react";
 
 // reactstrap components
 import {
-  Badge,
+//   Badge,
+	Button,
   Card,
   CardHeader,
-  CardFooter,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  Media,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Progress,
+	CardFooter,
+	Col,
+	Row,
+//   DropdownMenu,
+//   DropdownItem,
+//   UncontrolledDropdown,
+//   DropdownToggle,
+//   Media,
+//   Pagination,
+//   PaginationItem,
+//   PaginationLink,
+//   Progress,
   Table,
-  UncontrolledTooltip
+  // UncontrolledTooltip
 } from "reactstrap";
 // core components
 
 class SimpleTable extends React.Component {
   render() {
-		const { title, columns, rows } = this.props;
+		const { title, columns, rows, addLink } = this.props;
     return (
       <>
 				<Card className="shadow">
 					<CardHeader className="border-0">
-						<h3 className="mb-0">{ title }</h3>
+					<Row className="align-items-center">
+            <Col xs="11">
+              <h3 className="mb-0">{title}</h3>
+            </Col>
+						<Col xs="1">
+						<Button 
+							color="primary"
+							onClick={() => window.location.href = addLink}
+						>Add </Button>
+						</Col>
+          </Row>
 					</CardHeader>
 					<Table className="align-items-center table-flush" responsive>
 						<thead className="thead-light">

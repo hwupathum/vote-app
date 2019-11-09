@@ -18,7 +18,6 @@
 import React from "react";
 // reactstrap components
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
@@ -41,13 +40,15 @@ import {
 class VotersForm extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {
-        name: '',
-        NIC: '',
-        DOB: '2000-01-01',
-        division: 0,
-        sex: '',
-      };
+
+      this.state = props.initValues == null ?
+        {
+          name: '',
+          NIC: '',
+          DOB: '2000-01-01',
+          division: 0,
+          sex: '',
+        } : props.initValues;
   
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -59,19 +60,18 @@ class VotersForm extends React.Component {
   
     handleSubmit(event) {
       event.preventDefault();
-      console.log(this.state)
+      this.props.onSubmit(this.state)
     }
   
     render() {
-      const {config} = this.props;
-      console.log(this.props);
+      const {config,title} = this.props;
       return (
         <>
         <Card className="bg-secondary shadow">
         <CardHeader className="bg-white border-0">
           <Row className="align-items-center">
             <Col xs="8">
-              <h3 className="mb-0">Add Voters</h3>
+              <h3 className="mb-0">{title}</h3>
             </Col>
           </Row>
         </CardHeader>
@@ -89,13 +89,13 @@ class VotersForm extends React.Component {
                     </label>
                     <Input
                       className="form-control-alternative"
-                      defaultValue={this.props.name}
+                      // defaultValue={this.props.name}
                       value={this.state.name}
                       id="input-name"
                       name="name"
                       type="text"
                       onChange={this.handleChange}
-                      // required
+                      required
                     />
                   </FormGroup>
                 </Col>
@@ -109,13 +109,13 @@ class VotersForm extends React.Component {
                     </label>
                     <Input
                       className="form-control-alternative"
-                      defaultValue={this.props.NIC}
+                      // defaultValue={this.props.NIC}
                       value={this.state.NIC}
                       name="NIC"
                       id="input-email"
-                      type="email"
+                      type="text"
                       onChange={this.handleChange}
-                      // required
+                      required
                     />
                   </FormGroup>
                 </Col>
@@ -131,17 +131,17 @@ class VotersForm extends React.Component {
                     </label>
                     <Input
                       className="form-control-alternative"
-                      defaultValue={this.props.gender}
-                      value={this.state.gender}
+                      // defaultValue={this.props.gender}
+                      value={this.state.sex}
                       name="sex"
                       id="input-first-name"
                       onChange={this.handleChange}
                       type="select"
-                      // required
+                      required
                     >
                       <option></option>
-                      <option>Male</option>
-                      <option>Female</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
                     </Input>
                   </FormGroup>
                 </Col>
@@ -155,13 +155,13 @@ class VotersForm extends React.Component {
                     </label>
                     <Input
                       className="form-control-alternative"
-                      defaultValue={this.props.division}
+                      // defaultValue={this.props.division}
                       value={this.state.division}
                       name="division"
                       id="input-division"
                       onChange={this.handleChange}
                       type="select"
-                      // required
+                      required
                     >
                       <option></option>
                       {config.division.map((div,index) => 
@@ -182,13 +182,13 @@ class VotersForm extends React.Component {
                     </label>
                     <Input
                       className="form-control-alternative"
-                      defaultValue={this.props.DOB}
+                      // defaultValue={this.props.DOB}
                       value={this.state.DOB}
                       name="DOB"
                       id="input-dob"
                       onChange={this.handleChange}
                       type="date"
-                      // required
+                      required
                     />
                   </FormGroup>
                 </Col>

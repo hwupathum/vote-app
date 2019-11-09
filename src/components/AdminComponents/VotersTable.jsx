@@ -17,7 +17,11 @@
 */
 import React from "react";
 import SimpleTable from "components/Tables/Table.jsx"
+import { bindActionCreators } from "redux";
 import moment from "moment";
+import { connect } from "react-redux";
+import {deleteVotersAction} from "../../store/actions/votersActions.jsx"
+
 import {
 	DropdownMenu,
 	DropdownItem,
@@ -25,18 +29,18 @@ import {
 	DropdownToggle,
   } from "reactstrap";
 
-const createData = data => data.map(row => 
+const createData = (props) => props.data.map(row => 
 	<React.Fragment key={Math.random()}>
 		<th scope="row">{row.name}</th>
 		<td>{row.NIC}</td>
 		<td>{row.sex}</td>
-		<td>{row.division}</td>
-		<td>{moment(row.DOB.toMillis()).format('DD/MM/YYYY')}</td>
+		<td>{props.config.division[row.division]}</td>
+		<td>{moment(row.DOB.toMillis()).format('MM/DD/YYYY')}</td>
 		<td className="text-right">
 		<UncontrolledDropdown>
 			<DropdownToggle
 				className="btn-icon-only text-light"
-				href="#pablo"
+				href="#"
 				role="button"
 				size="sm"
 				color=""
@@ -46,14 +50,14 @@ const createData = data => data.map(row =>
 			</DropdownToggle>
 			<DropdownMenu className="dropdown-menu-arrow" right>
 				<DropdownItem
-					href="#pablo"
-					onClick={e => e.preventDefault()}
+					href="#"
+					onClick={() => window.location.href = '/admin/editvoters?id='+row.id}
 				>
 					Edit
 				</DropdownItem>
 				<DropdownItem
-					href="#pablo"
-					onClick={e => e.preventDefault()}
+					href="#"
+					onClick={() => props.deleteVoter(row.id)}
 				>
 					Delete
 				</DropdownItem>
@@ -65,15 +69,19 @@ const createData = data => data.map(row =>
 
 class VotersTable extends React.Component {
   render() {
-		const {data} = this.props;
+		// const {data} = this.props;
 		const colNames = ['Full Name','NIC Number','Gender','Division','Date of Birth'];
 		// createData(data)
     return (
       <>
-        <SimpleTable title="Voters" columns={colNames} rows={createData(data)}/>
+        <SimpleTable title="Voters" columns={colNames} rows={createData(this.props)} addLink="/admin/addvoters"/>
       </>
     );
   }
 }
 
-export default VotersTable;
+const mapDispatchToProps = dispatch => ({
+    deleteVoter: bindActionCreators(deleteVotersAction, dispatch),
+});
+
+export default connect(null,mapDispatchToProps)(VotersTable);

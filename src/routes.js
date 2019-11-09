@@ -24,6 +24,7 @@ import Icons from "views/examples/Icons.jsx";
 // 
 import Voters from "views/admin/Voters.jsx"
 import AddVoters from "views/admin/AddVoters.jsx"
+import EditVoters from "views/admin/EditVoters.jsx"
 
 var routes = [
   {
@@ -35,7 +36,7 @@ var routes = [
   },{
     path: "/voters",
     name: "Voters",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-single-02 text-primary",
     component: Voters,
     layout: "/admin",
     // invisible: true
@@ -45,7 +46,14 @@ var routes = [
     icon: "ni ni-tv-2 text-primary",
     component: AddVoters,
     layout: "/admin",
-    // invisible: true
+    invisible: true
+  },{
+    path: "/editvoters",
+    name: "EditVoters",
+    icon: "ni ni-tv-2 text-primary",
+    component: EditVoters,
+    layout: "/admin",
+    invisible: true
   },
   {
     path: "/icons",

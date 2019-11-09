@@ -17,7 +17,7 @@
 */
 import React from "react";
 // reactstrap components
-import { Card, Container, Row } from "reactstrap";
+import { Container, Row } from "reactstrap";
 
 // core components
 import Header from "components/Headers/Header.jsx";
@@ -29,8 +29,8 @@ import { connect } from "react-redux";
 
 class Voters extends React.Component {
 	render() {
-		const {voters} = this.props;
-		if(!isLoaded(voters)) return null;
+		const {voters, config} = this.props;
+		if(!isLoaded(voters) || !isLoaded(config)) return null;
 		return (
 		<>
 			<Header />
@@ -38,7 +38,7 @@ class Voters extends React.Component {
 			<Container className="mt--7" fluid>
 				<Row>
 					<div className="col">
-						<VotersTable data={voters}/>
+						<VotersTable data={voters} config={config.config_main}/>
 					</div>
 				</Row>
 			</Container>
@@ -51,10 +51,11 @@ const mapStateToProps = (state) => {
 	return {
 		auth: state.auth.key,
 		voters: state.firestore.ordered.Voter,
+		config: state.firestore.data.Config,
 	}
 };
 
 export default compose(
 	connect(mapStateToProps),
-	firestoreConnect(['Voter'])
+	firestoreConnect(['Voter', 'Config'])
 )(Voters);
