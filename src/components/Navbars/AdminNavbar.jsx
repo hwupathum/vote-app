@@ -34,6 +34,10 @@ import {
   Container,
   Media
 } from "reactstrap";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { signOut } from "../../store/actions/authAcions.jsx"
+import { firestoreConnect, isLoaded, withFirestore } from 'react-redux-firebase';
 
 class AdminNavbar extends React.Component {
   render() {
@@ -77,7 +81,7 @@ class AdminNavbar extends React.Component {
                   </Media>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-arrow" right>
-                  <DropdownItem className="noti-title" header tag="div">
+                  {/* <DropdownItem className="noti-title" header tag="div">
                     <h6 className="text-overflow m-0">Welcome!</h6>
                   </DropdownItem>
                   <DropdownItem to="/admin/user-profile" tag={Link}>
@@ -96,8 +100,8 @@ class AdminNavbar extends React.Component {
                     <i className="ni ni-support-16" />
                     <span>Support</span>
                   </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+                  <DropdownItem divider /> */}
+                  <DropdownItem href="#pablo" onClick={() => this.props.signOut(this.props)}>
                     <i className="ni ni-user-run" />
                     <span>Logout</span>
                   </DropdownItem>
@@ -111,4 +115,17 @@ class AdminNavbar extends React.Component {
   }
 }
 
-export default AdminNavbar;
+const mapStateToProps = state => {
+  return {
+    auth: state.firestore.auth
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    signOut : bindActionCreators(signOut, dispatch),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)
+  (withFirestore(AdminNavbar));

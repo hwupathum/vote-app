@@ -24,7 +24,13 @@ import AdminNavbar from "components/Navbars/AdminNavbar.jsx";
 import AdminFooter from "components/Footers/AdminFooter.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 
+
 import routes from "routes.js";
+
+//  add auth
+import { connect } from "react-redux";
+import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { compose } from "redux";
 
 class Admin extends React.Component {
   componentDidUpdate(e) {
@@ -60,6 +66,13 @@ class Admin extends React.Component {
     return "Brand";
   };
   render() {
+    const {auth, admin} = this.props;
+    console.log(auth);
+    if (auth.isLoaded && isLoaded(admin)){
+      if (!auth.uid) {
+        window.location.href = "/auth/login"
+      }
+    }
     return (
       <>
         <Sidebar
@@ -86,4 +99,14 @@ class Admin extends React.Component {
   }
 }
 
-export default Admin;
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth,
+    admin: state.firestore.ordered.Admin
+  }
+};
+
+export default compose(
+  firestoreConnect(['Admin']),
+  connect(mapStateToProps))
+  (Admin);

@@ -24,6 +24,14 @@ import { Container, Row, Col } from "reactstrap";
 import AuthNavbar from "components/Navbars/AuthNavbar.jsx";
 import AuthFooter from "components/Footers/AuthFooter.jsx";
 
+//  add auth
+import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { compose, bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { unregisteredLogin } from "../store/actions/authAcions.jsx"
+
+
+
 import routes from "routes.js";
 
 class Auth extends React.Component {
@@ -49,6 +57,19 @@ class Auth extends React.Component {
     });
   };
   render() {
+    const {auth, admin} = this.props;
+    if (auth.isLoaded && isLoaded(admin)){
+      if (auth.uid) {
+        // check if logged user is in database
+        const loggedUser = admin.filter(user => user.email === auth.email);
+        if (loggedUser.length > 0 && loggedUser[0].access) {
+          window.location.href = "/admin/index"
+          console.log(loggedUser[0])
+        } else {
+          this.props.unregisteredLogin(this.props);
+        }
+      }
+    }
     return (
       <>
         <div className="main-content">
@@ -96,4 +117,20 @@ class Auth extends React.Component {
   }
 }
 
-export default Auth;
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth,
+    admin: state.firestore.ordered.Admin
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    unregisteredLogin : bindActionCreators(unregisteredLogin, dispatch),
+  }
+};
+
+export default compose(
+  firestoreConnect(['Admin']),
+  connect(mapStateToProps, mapDispatchToProps))
+  (Auth);

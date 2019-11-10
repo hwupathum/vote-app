@@ -22,6 +22,7 @@ import Login from "views/admin/Login.jsx";
 import Tables from "views/examples/Tables.jsx";
 import Icons from "views/examples/Icons.jsx";
 // 
+import Elections from "views/admin/Elections.jsx"
 import Voters from "views/admin/Voters.jsx"
 import AddVoters from "views/admin/AddVoters.jsx"
 import EditVoters from "views/admin/EditVoters.jsx"
@@ -54,6 +55,13 @@ var routes = [
     component: EditVoters,
     layout: "/admin",
     invisible: true
+  },{
+    path: "/elections",
+    name: "Elections",
+    icon: "ni ni-single-02 text-primary",
+    component: Elections,
+    layout: "/admin",
+    // invisible: true
   },
   {
     path: "/icons",
