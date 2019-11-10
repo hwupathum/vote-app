@@ -50,8 +50,7 @@ const createData = (props) => props.data.map(row =>
 			</DropdownToggle>
 			<DropdownMenu className="dropdown-menu-arrow" right>
 				<DropdownItem
-					href="#"
-					onClick={() => window.location.href = '/admin/editvoters?id='+row.id}
+					href={'/admin/editvoters?id='+row.id}
 				>
 					Edit
 				</DropdownItem>

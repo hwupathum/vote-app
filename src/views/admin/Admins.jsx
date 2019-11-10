@@ -49,7 +49,6 @@ class Admins extends React.Component {
   
 const mapStateToProps = (state) => {
 	return {
-		auth: state.auth.key,
 		admins: state.firestore.ordered.Admin,
 		config: state.firestore.data.Config,
 	}

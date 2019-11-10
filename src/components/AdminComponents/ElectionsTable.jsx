@@ -20,7 +20,7 @@ import SimpleTable from "components/Tables/Table.jsx"
 import { bindActionCreators } from "redux";
 import moment from "moment";
 import { connect } from "react-redux";
-import {deleteAdminsAction} from "../../store/actions/adminsActions.jsx"
+import {deleteVotersAction} from "../../store/actions/votersActions.jsx"
 
 import {
 	DropdownMenu,
@@ -32,10 +32,11 @@ import {
 const createData = (props) => props.data.map(row => 
 	<React.Fragment key={Math.random()}>
 		<th scope="row">{row.name}</th>
-		<td>{row.email}</td>
-		<td>{props.config.adminType[row.type]}</td>
+		<td>{moment(row.voteStart.toMillis()).format('MM/DD/YYYY HH:mm')}</td>
+		<td>{moment(row.voteEnd.toMillis()).format('MM/DD/YYYY HH:mm')}</td>
+		<td>{moment(row.candidateStart.toMillis()).format('MM/DD/YYYY HH:mm')}</td>
+		<td>{moment(row.candidateEnd.toMillis()).format('MM/DD/YYYY HH:mm')}</td>
 		<td className="text-right">
-        {row.type !== 'COM' ? 
 		<UncontrolledDropdown>
 			<DropdownToggle
 				className="btn-icon-only text-light"
@@ -49,37 +50,36 @@ const createData = (props) => props.data.map(row =>
 			</DropdownToggle>
 			<DropdownMenu className="dropdown-menu-arrow" right>
 				<DropdownItem
-					href={'/admin/editadmins?id='+row.id}
+					href={'/admin/editElections?id='+row.id}
 				>
 					Edit
 				</DropdownItem>
-				<DropdownItem
-					href="#"
-					onClick={() => props.deleteAdmin(row.id)}
+                <DropdownItem
+					href={'/admin/candidates?id='+row.id}
 				>
-					Delete
+					View Candidates
 				</DropdownItem>
 			</DropdownMenu>
-		</UncontrolledDropdown> : null }
+		</UncontrolledDropdown>
 	</td>
 	</React.Fragment>
 	);
 
-class AdminsTable extends React.Component {
+class VotersTable extends React.Component {
   render() {
 		// const {data} = this.props;
-		const colNames = ['Full Name','Email','Type'];
+		const colNames = ['Election Name' ,'Starting Time', 'End Time', 'Nominaton Start', 'Nomination End'];
 		// createData(data)
     return (
       <>
-        <SimpleTable title="Admins" columns={colNames} rows={createData(this.props)} addLink="/admin/addadmins"/>
+        <SimpleTable title="Elections" columns={colNames} rows={createData(this.props)} addLink="/admin/addelections"/>
       </>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-    deleteAdmin: bindActionCreators(deleteAdminsAction, dispatch),
+    deleteVoter: bindActionCreators(deleteVotersAction, dispatch),
 });
 
-export default connect(null,mapDispatchToProps)(AdminsTable);
+export default connect(null,mapDispatchToProps)(VotersTable);

@@ -49,7 +49,6 @@ class Voters extends React.Component {
   
 const mapStateToProps = (state) => {
 	return {
-		auth: state.auth.key,
 		voters: state.firestore.ordered.Voter,
 		config: state.firestore.data.Config,
 	}

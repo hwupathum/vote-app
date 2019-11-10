@@ -21,16 +21,29 @@ import { Container, Row } from "reactstrap";
 
 // core components
 import Header from "components/Headers/Header.jsx";
-import ElectionsTable from "components/AdminComponents/ElectionsTable.jsx"
+import ElectionsForm from "components/Forms/ElectionsForm.jsx"
+
+// actions
+import {addElectionsAction} from "../../store/actions/electionsActions.jsx"
 
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
-import { compose } from "redux";
+import { compose, bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import moment from "moment";
 
-class Elections extends React.Component {
+class AddElections extends React.Component {
+    handleSubmit = values => {
+        const voteStart = moment(values.voteStart).toDate()
+        const voteEnd = moment(values.voteEnd).toDate()
+        const candidateStart = moment(values.candidateStart).toDate()
+        const candidateEnd = moment(values.candidateEnd).toDate()
+        console.group(voteStart)
+        // const division = parseInt(values.division)
+        this.props.addElections({...values, voteStart, voteEnd, candidateStart, candidateEnd});
+    }
 	render() {
-		const {elections, config} = this.props;
-		if(!isLoaded(elections) || !isLoaded(config)) return null;
+		const {config} = this.props;
+		if(!isLoaded(config)) return null;
 		return (
 		<>
 			<Header />
@@ -38,7 +51,7 @@ class Elections extends React.Component {
 			<Container className="mt--7" fluid>
 				<Row>
 					<div className="col">
-						<ElectionsTable data={elections} config={config.config_main}/>
+						<ElectionsForm title="Add Election" config={config.config_main} onSubmit={this.handleSubmit} initialValues={null}/>
 					</div>
 				</Row>
 			</Container>
@@ -49,12 +62,16 @@ class Elections extends React.Component {
   
 const mapStateToProps = (state) => {
 	return {
-		elections: state.firestore.ordered.Election,
+		// auth: state.auth.key,
 		config: state.firestore.data.Config,
 	}
 };
 
+const mapDispatchToProps = dispatch => ({
+    addElections: bindActionCreators(addElectionsAction, dispatch),
+  });
+
 export default compose(
-	connect(mapStateToProps),
-	firestoreConnect(['Election', 'Config'])
-)(Elections);
+	connect(mapStateToProps,mapDispatchToProps),
+	firestoreConnect(['Config'])
+)(AddElections);

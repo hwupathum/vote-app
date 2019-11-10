@@ -23,6 +23,8 @@ import Tables from "views/examples/Tables.jsx";
 import Icons from "views/examples/Icons.jsx";
 // 
 import Elections from "views/admin/Elections.jsx"
+import AddElections from "views/admin/AddElections.jsx"
+import EditElections from "views/admin/EditElections.jsx"
 import Voters from "views/admin/Voters.jsx"
 import AddVoters from "views/admin/AddVoters.jsx"
 import EditVoters from "views/admin/EditVoters.jsx"
@@ -61,10 +63,24 @@ var routes = [
   },{
     path: "/elections",
     name: "Elections",
-    icon: "ni ni-single-02 text-primary",
+    icon: "ni ni-world-2 text-primary",
     component: Elections,
     layout: "/admin",
     // invisible: true
+  },{
+    path: "/addelections",
+    name: "AddElections",
+    icon: "ni ni-world-2 text-primary",
+    component: AddElections,
+    layout: "/admin",
+    invisible: true
+  },{
+    path: "/editelections",
+    name: "EditElections",
+    icon: "ni ni-world-2 text-primary",
+    component: EditElections,
+    layout: "/admin",
+    invisible: true
   },{
     path: "/admins",
     name: "Admins",
@@ -91,35 +107,43 @@ var routes = [
     name: "Icons",
     icon: "ni ni-planet text-blue",
     component: Icons,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
+
   },
   {
     path: "/user-profile",
     name: "User Profile",
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
+
   },
   {
     path: "/tables",
     name: "Tables",
     icon: "ni ni-bullet-list-67 text-red",
     component: Tables,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
+
   },
   {
     path: "/login",
     name: "Login",
     icon: "ni ni-key-25 text-info",
     component: Login,
-    layout: "/auth"
+    invisible: true,
+    layout: "/auth",
   },
   {
     path: "/register",
     name: "Register",
     icon: "ni ni-circle-08 text-pink",
     component: Register,
-    layout: "/auth"
+    layout: "/auth",
+    invisible: true
   }
 ];
 export default routes;
