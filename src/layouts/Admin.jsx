@@ -67,7 +67,7 @@ class Admin extends React.Component {
   };
   render() {
     const {auth, admin} = this.props;
-    console.log(auth);
+    // console.log(auth);
     if (auth.isLoaded && isLoaded(admin)){
       if (!auth.uid) {
         window.location.href = "/auth/login"

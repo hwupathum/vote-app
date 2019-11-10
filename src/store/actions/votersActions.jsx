@@ -5,7 +5,6 @@ export const addVotersAction = (data) => (dispatch, getState, getFirestore) => {
     firestore.collection('Voter').add({
       ...data, DOB
     }).then(() => {
-        console.log('dd')
       window.location.href = '/admin/voters';
     });
 };
@@ -26,7 +25,7 @@ export const deleteVotersAction = (id) => (dispatch, getState, getFirestore) => 
 
     firestore.collection('Voter').doc(id).delete()
     .then(() => {
-        console.log('dd')
-      window.location.href = '/admin/voters';
+        // console.log('dd')
+      // window.location.href = '/admin/voters';
     });
 };

@@ -62,9 +62,8 @@ class Auth extends React.Component {
       if (auth.uid) {
         // check if logged user is in database
         const loggedUser = admin.filter(user => user.email === auth.email);
-        if (loggedUser.length > 0 && loggedUser[0].access) {
+        if (loggedUser.length > 0) {
           window.location.href = "/admin/index"
-          console.log(loggedUser[0])
         } else {
           this.props.unregisteredLogin(this.props);
         }

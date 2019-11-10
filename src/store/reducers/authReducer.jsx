@@ -14,7 +14,7 @@ const authReducer =  (state = initialState, action = {}) => {
       alert('User Not Registered');
       return {
         ...state,
-        authError: 'User Not Registered'
+        authError: 'Account Not Verified'
       };
     case 'LOGIN_SUCCESS':
       console.log('Login Success');
@@ -26,6 +26,18 @@ const authReducer =  (state = initialState, action = {}) => {
       console.log('Logout Success');
       window.location.href = '/auth/login';
       return state;
+    case 'SIGNUP_SUCCESS':
+      console.log('Signup Success');
+      return {
+        ...state,
+        authError: null,
+      }
+    case 'SIGNUP_ERROR':
+      alert(action.err.message);
+      return {
+        ...state,
+        authError: action.err.message,
+      }
     default:
       return state;
   }

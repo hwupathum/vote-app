@@ -24,3 +24,17 @@ export const unregisteredLogin = (props) => (dispatch, getState) => {
     dispatch({ type: 'UNREGISTERED_LOGIN' });
   });
 };
+
+export const signUp = (props, newUser) => (dispatch, getState) => {
+  const { firebase } = props;
+
+  //  create new user
+  firebase.auth().createUserWithEmailAndPassword(
+    newUser.email,
+    newUser.password
+  ).then(() => {
+    dispatch({ type: 'SIGNUP_SUCCESS' });
+  }).catch(err => {
+    dispatch({ type: 'SIGNUP_ERROR', err });
+  })
+};

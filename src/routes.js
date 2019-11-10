@@ -17,7 +17,7 @@
 */
 import Index from "views/Index.jsx";
 import Profile from "views/examples/Profile.jsx";
-import Register from "views/examples/Register.jsx";
+import Register from "views/admin/Register.jsx";
 import Login from "views/admin/Login.jsx";
 import Tables from "views/examples/Tables.jsx";
 import Icons from "views/examples/Icons.jsx";
@@ -26,6 +26,9 @@ import Elections from "views/admin/Elections.jsx"
 import Voters from "views/admin/Voters.jsx"
 import AddVoters from "views/admin/AddVoters.jsx"
 import EditVoters from "views/admin/EditVoters.jsx"
+import Admins from "views/admin/Admins.jsx"
+import AddAdmins from "views/admin/AddAdmins.jsx"
+import EditAdmins from "views/admin/EditAdmins.jsx"
 
 var routes = [
   {
@@ -62,8 +65,28 @@ var routes = [
     component: Elections,
     layout: "/admin",
     // invisible: true
-  },
-  {
+  },{
+    path: "/admins",
+    name: "Admins",
+    icon: "ni ni-single-02 text-primary",
+    component: Admins,
+    layout: "/admin",
+    // invisible: true
+  },{
+    path: "/addadmins",
+    name: "AddAdmins",
+    icon: "ni ni-tv-2 text-primary",
+    component: AddAdmins,
+    layout: "/admin",
+    invisible: true
+  },{
+    path: "/editadmins",
+    name: "EditAdmins",
+    icon: "ni ni-tv-2 text-primary",
+    component: EditAdmins,
+    layout: "/admin",
+    invisible: true
+  },{
     path: "/icons",
     name: "Icons",
     icon: "ni ni-planet text-blue",
