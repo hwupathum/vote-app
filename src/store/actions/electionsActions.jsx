@@ -25,3 +25,23 @@ export const editElectionsAction = (data,id) => (dispatch, getState, getFirestor
       window.location.href = '/admin/elections';
     });
 };
+
+export const addCandidateAction = (data, eid) => (dispatch, getState, getFirestore) => {
+  const firestore = getFirestore();
+
+  firestore.collection('Election').doc(eid).collection('Candidate').add({
+    ...data
+  }).then(() => {
+    window.history.back()
+  });
+};
+
+export const deleteCandidatesAction = (eid, id) => (dispatch, getState, getFirestore) => {
+  const firestore = getFirestore();
+
+  firestore.collection('Election').doc(eid).collection('Candidate').doc(id).delete()
+  .then(() => {
+    window.location.reload()
+  });
+};
+

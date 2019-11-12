@@ -22,7 +22,7 @@ import { Container, Row, Col } from "reactstrap";
 
 // core components
 import AuthNavbar from "components/Navbars/AuthNavbar.jsx";
-import AuthFooter from "components/Footers/AuthFooter.jsx";
+// import AuthFooter from "components/Footers/AuthFooter.jsx";
 
 //  add auth
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
@@ -110,7 +110,7 @@ class Auth extends React.Component {
             </Row>
           </Container>
         </div>
-        <AuthFooter />
+        {/* <AuthFooter /> */}
       </>
     );
   }
@@ -130,6 +130,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-  firestoreConnect(['Admin']),
-  connect(mapStateToProps, mapDispatchToProps))
-  (Auth);
+    firestoreConnect(['Admin']),
+    connect(mapStateToProps, mapDispatchToProps)
+  )(Auth);

@@ -21,17 +21,25 @@ import { Container, Row } from "reactstrap";
 
 // core components
 import Header from "components/Headers/Header.jsx";
-import AdminsTable from "components/AdminComponents/AdminsTable.jsx"
+import CandidateForm from "components/Forms/CandidateForm.jsx"
+
+// actions
+import {addCandidateAction} from "../../store/actions/electionsActions.jsx"
 
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
-import { compose } from "redux";
+import { compose, bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-class Admins extends React.Component {
+const electionId = new URLSearchParams(window.location.search).get('eid');
+
+class AddCandidate extends React.Component {
+    handleSubmit = values => {
+        // console.log(electionId)
+        this.props.addCandidate(values, electionId);
+    }
 	render() {
-		const {admins, config, auth} = this.props;
-		if(!isLoaded(admins) || !isLoaded(config) || !auth.isLoaded) return null;
-		const loggedUser = admins.filter(user => user.email === auth.email)[0];
+		const {config} = this.props;
+		if(!isLoaded(config)) return null;
 		return (
 		<>
 			<Header />
@@ -39,7 +47,7 @@ class Admins extends React.Component {
 			<Container className="mt--7" fluid>
 				<Row>
 					<div className="col">
-						<AdminsTable data={admins} config={config.config_main} loggedUser={loggedUser}/>
+						<CandidateForm title="Add Admins" config={config.config_main} onSubmit={this.handleSubmit} initialValues={null} electionId={electionId}/>
 					</div>
 				</Row>
 			</Container>
@@ -50,13 +58,16 @@ class Admins extends React.Component {
   
 const mapStateToProps = (state) => {
 	return {
-		auth: state.firebase.auth,
-		admins: state.firestore.ordered.Admin,
+		// auth: state.auth.key,
 		config: state.firestore.data.Config,
 	}
 };
 
+const mapDispatchToProps = dispatch => ({
+    addCandidate: bindActionCreators(addCandidateAction, dispatch),
+  });
+
 export default compose(
-	connect(mapStateToProps),
-	firestoreConnect(['Admin', 'Config'])
-)(Admins);
+	connect(mapStateToProps,mapDispatchToProps),
+	firestoreConnect(['Config'])
+)(AddCandidate);

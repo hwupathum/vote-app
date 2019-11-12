@@ -22,6 +22,8 @@ import Login from "views/admin/Login.jsx";
 import Tables from "views/examples/Tables.jsx";
 import Icons from "views/examples/Icons.jsx";
 // 
+import Candidates from "views/admin/Candidates.jsx"
+import AddCandidates from "views/admin/AddCandidates.jsx"
 import Elections from "views/admin/Elections.jsx"
 import AddElections from "views/admin/AddElections.jsx"
 import EditElections from "views/admin/EditElections.jsx"
@@ -100,6 +102,20 @@ var routes = [
     name: "EditAdmins",
     icon: "ni ni-tv-2 text-primary",
     component: EditAdmins,
+    layout: "/admin",
+    invisible: true
+  },{
+    path: "/candidates",
+    name: "Candidates",
+    icon: "ni ni-world-2 text-primary",
+    component: Candidates,
+    layout: "/admin",
+    invisible: true
+  },{
+    path: "/addcandidate",
+    name: "AddCandidates",
+    icon: "ni ni-world-2 text-primary",
+    component: AddCandidates,
     layout: "/admin",
     invisible: true
   },{

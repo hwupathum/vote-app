@@ -18,10 +18,10 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 // reactstrap components
-import { Container } from "reactstrap";
+// import { Container } from "reactstrap";
 // core components
 import AdminNavbar from "components/Navbars/AdminNavbar.jsx";
-import AdminFooter from "components/Footers/AdminFooter.jsx";
+// import AdminFooter from "components/Footers/AdminFooter.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 
 
@@ -90,9 +90,9 @@ class Admin extends React.Component {
             brandText={this.getBrandText(this.props.location.pathname)}
           />
           <Switch>{this.getRoutes(routes)}</Switch>
-          <Container fluid>
+          {/* <Container fluid>
             <AdminFooter />
-          </Container>
+          </Container> */}
         </div>
       </>
     );
@@ -107,6 +107,6 @@ const mapStateToProps = state => {
 };
 
 export default compose(
-  firestoreConnect(['Admin']),
-  connect(mapStateToProps))
-  (Admin);
+    firestoreConnect(['Admin']),
+    connect(mapStateToProps)
+  )(Admin);

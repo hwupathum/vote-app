@@ -42,22 +42,17 @@ import {
 
 class SimpleTable extends React.Component {
   render() {
-		const { title, columns, rows, addLink } = this.props;
+		const { title, columns, rows, addLink, disableAdd } = this.props;
     return (
       <>
 				<Card className="shadow">
 					<CardHeader className="border-0">
 					<Row className="align-items-center">
-            <Col xs="11">
-              <h3 className="mb-0">{title}</h3>
-            </Col>
-						<Col xs="1">
-						<Button 
-							color="primary"
-							onClick={() => window.location.href = addLink}
-						>Add </Button>
+						<Col>
+							<h3 className="mb-0" style={{float: 'left'}}>{title}</h3>
+							<Button color="primary" onClick={() => window.location.href = addLink} style = {{float: 'right'}} disabled={disableAdd}>Add </Button>
 						</Col>
-          </Row>
+        			</Row>
 					</CardHeader>
 					<Table className="align-items-center table-flush" responsive>
 						<thead className="thead-light">

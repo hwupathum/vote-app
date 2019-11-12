@@ -21,17 +21,41 @@ import { Container, Row } from "reactstrap";
 
 // core components
 import Header from "components/Headers/Header.jsx";
-import AdminsTable from "components/AdminComponents/AdminsTable.jsx"
+import CandidatesTable from "components/AdminComponents/CandidatesTable.jsx"
 
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import { connect } from "react-redux";
+import { withFirebase } from 'react-redux-firebase';
 
-class Admins extends React.Component {
+
+const electionId = new URLSearchParams(window.location.search).get('id');
+
+class Candidates extends React.Component {
+    state = {
+        candidates: []
+    }
+    componentDidMount() {
+        const docRef = this.props.firebase.firestore()
+          .collection('Election')
+          .doc(electionId)
+        let c = [];
+        docRef.collection('Candidate')
+          .get()
+          .then(snapshot => {
+            snapshot.forEach(doc => {
+              c.push({...doc.data(), id:doc.id});
+            })
+          }).then(() => {
+			this.setState({candidates: c})
+		})
+      }
+
 	render() {
-		const {admins, config, auth} = this.props;
-		if(!isLoaded(admins) || !isLoaded(config) || !auth.isLoaded) return null;
-		const loggedUser = admins.filter(user => user.email === auth.email)[0];
+		const {elections, config, auth, admins} = this.props;
+		if(!isLoaded(elections) || !isLoaded(config) || !isLoaded(admins) || !auth.isLoaded) return null;
+		const loggedUser = admins.filter(user => user.email === auth.email)[0];		
+        // console.log(this.state.candidates)
 		return (
 		<>
 			<Header />
@@ -39,7 +63,7 @@ class Admins extends React.Component {
 			<Container className="mt--7" fluid>
 				<Row>
 					<div className="col">
-						<AdminsTable data={admins} config={config.config_main} loggedUser={loggedUser}/>
+						<CandidatesTable data={this.state.candidates} config={config.config_main} id={electionId} loggedUser={loggedUser}/>
 					</div>
 				</Row>
 			</Container>
@@ -52,11 +76,12 @@ const mapStateToProps = (state) => {
 	return {
 		auth: state.firebase.auth,
 		admins: state.firestore.ordered.Admin,
+		elections: state.firestore.ordered.Election,
 		config: state.firestore.data.Config,
 	}
 };
 
 export default compose(
 	connect(mapStateToProps),
-	firestoreConnect(['Admin', 'Config'])
-)(Admins);
+	firestoreConnect(['Election', 'Config', 'Admin'])
+)(withFirebase(Candidates));

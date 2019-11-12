@@ -17,16 +17,16 @@
 */
 import React from "react";
 import { connect } from "react-redux";
-import { compose, bindActionCreators } from "redux";
+import { bindActionCreators } from "redux";
 import { signIn } from "../../store/actions/authAcions.jsx"
-import { firestoreConnect, isLoaded, withFirestore } from 'react-redux-firebase';
+import { withFirestore } from 'react-redux-firebase';
 
 
 // reactstrap components
 import {
   Button,
   Card,
-  CardHeader,
+  // CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -80,7 +80,7 @@ class Login extends React.Component {
                         <i className="ni ni-email-83" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Email" type="email" onChange={this.handleChange}/>
+                    <Input placeholder="Email" type="email" onChange={this.handleChange} required/>
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -90,7 +90,7 @@ class Login extends React.Component {
                         <i className="ni ni-lock-circle-open" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Password" type="password" onChange={this.handleChange}/>
+                    <Input placeholder="Password" type="password" onChange={this.handleChange} required/>
                   </InputGroup>
                 </FormGroup>
                 <div className="text-center">
@@ -138,5 +138,5 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)
-  (withFirestore(Login));
+export default connect(mapStateToProps, mapDispatchToProps
+  )(withFirestore(Login));

@@ -20,22 +20,32 @@ import SimpleTable from "components/Tables/Table.jsx"
 import { bindActionCreators } from "redux";
 import moment from "moment";
 import { connect } from "react-redux";
-import {deleteAdminsAction} from "../../store/actions/adminsActions.jsx"
+import {deleteCandidatesAction} from "../../store/actions/electionsActions.jsx"
 
 import {
 	DropdownMenu,
 	DropdownItem,
 	UncontrolledDropdown,
-	DropdownToggle,
+    DropdownToggle,
+    Media
   } from "reactstrap";
 
 const createData = (props) => props.data.map(row => 
 	<React.Fragment key={Math.random()}>
 		<th scope="row">{row.name}</th>
-		<td>{row.email}</td>
-		<td>{props.config.adminType[row.type]}</td>
+		<td>{row.NIC}</td>
+		<td>{row.party}</td>
+		<td>
+            <Media className="align-items-center">
+                <img
+                    className="avatar rounded-circle mr-3"
+                    alt=""
+                    src={row.symbol}
+                />
+            </Media>
+        </td>
+        {props.loggedUser.type !== 'LLA' ?
 		<td className="text-right">
-        {props.loggedUser.type === 'COM' && row.type !== 'COM' ? 
 		<UncontrolledDropdown>
 			<DropdownToggle
 				className="btn-icon-only text-light"
@@ -48,38 +58,38 @@ const createData = (props) => props.data.map(row =>
 				<i className="fas fa-ellipsis-v" />
 			</DropdownToggle>
 			<DropdownMenu className="dropdown-menu-arrow" right>
-				<DropdownItem
-					href={'/admin/editadmins?id='+row.id}
+				{/* <DropdownItem
+					href={'/admin/editcandidate?eid='+props.id+'&id='+row.id}
 				>
 					Edit
-				</DropdownItem>
+				</DropdownItem> */}
 				<DropdownItem
 					href="#"
-					onClick={() => props.deleteAdmin(row.id)}
+					onClick={() => props.deleteCandidate(props.id,row.id)}
 				>
 					Delete
 				</DropdownItem>
 			</DropdownMenu>
-		</UncontrolledDropdown> : null }
-	</td>
+		</UncontrolledDropdown>
+	</td> : null}
 	</React.Fragment>
 	);
 
-class AdminsTable extends React.Component {
+class VotersTable extends React.Component {
   render() {
-		// const {data} = this.props;
-		const colNames = ['Full Name','Email','Type'];
-		// createData(data)
+    // const {id, ...props} = this.props;
+    const colNames = ['Full Name','NIC Number','Party','Symbol'];
+    // console.log(this.props.loggedUser)
     return (
       <>
-        <SimpleTable title="Admins" columns={colNames} rows={createData(this.props)} addLink="/admin/addadmins" disableAdd={this.props.loggedUser.type !== 'COM' ? true : false}/>
+        <SimpleTable title="Candidates" columns={colNames} rows={createData(this.props)} addLink={"/admin/addcandidate?eid="+this.props.id} disableAdd={this.props.loggedUser.type === 'LLA' ? true : false}/>
       </>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-    deleteAdmin: bindActionCreators(deleteAdminsAction, dispatch),
+    deleteCandidate: bindActionCreators(deleteCandidatesAction, dispatch),
 });
 
-export default connect(null,mapDispatchToProps)(AdminsTable);
+export default connect(null,mapDispatchToProps)(VotersTable);

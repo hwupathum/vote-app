@@ -49,11 +49,12 @@ const createData = (props) => props.data.map(row =>
 				<i className="fas fa-ellipsis-v" />
 			</DropdownToggle>
 			<DropdownMenu className="dropdown-menu-arrow" right>
+				{props.loggedUser.type === 'COM' && row.type !== 'COM' ?
 				<DropdownItem
 					href={'/admin/editElections?id='+row.id}
 				>
 					Edit
-				</DropdownItem>
+				</DropdownItem> : null}
                 <DropdownItem
 					href={'/admin/candidates?id='+row.id}
 				>
@@ -72,7 +73,7 @@ class VotersTable extends React.Component {
 		// createData(data)
     return (
       <>
-        <SimpleTable title="Elections" columns={colNames} rows={createData(this.props)} addLink="/admin/addelections"/>
+        <SimpleTable title="Elections" columns={colNames} rows={createData(this.props)} addLink="/admin/addelections" disableAdd={this.props.loggedUser.type !== 'COM' ? true : false}/>
       </>
     );
   }

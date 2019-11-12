@@ -29,8 +29,9 @@ import { connect } from "react-redux";
 
 class Elections extends React.Component {
 	render() {
-		const {elections, config} = this.props;
-		if(!isLoaded(elections) || !isLoaded(config)) return null;
+		const {elections, admins, config, auth} = this.props;
+		if(!isLoaded(elections) || !isLoaded(admins) || !isLoaded(config) || !auth.isLoaded) return null;
+		const loggedUser = admins.filter(user => user.email === auth.email)[0];
 		return (
 		<>
 			<Header />
@@ -38,7 +39,7 @@ class Elections extends React.Component {
 			<Container className="mt--7" fluid>
 				<Row>
 					<div className="col">
-						<ElectionsTable data={elections} config={config.config_main}/>
+						<ElectionsTable data={elections} config={config.config_main} loggedUser={loggedUser}/>
 					</div>
 				</Row>
 			</Container>
@@ -49,6 +50,8 @@ class Elections extends React.Component {
   
 const mapStateToProps = (state) => {
 	return {
+		auth: state.firebase.auth,
+		admins: state.firestore.ordered.Admin,
 		elections: state.firestore.ordered.Election,
 		config: state.firestore.data.Config,
 	}
@@ -56,5 +59,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
 	connect(mapStateToProps),
-	firestoreConnect(['Election', 'Config'])
+	firestoreConnect(['Admin', 'Election', 'Config'])
 )(Elections);
