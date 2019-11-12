@@ -18,7 +18,6 @@
 import React from "react";
 import SimpleTable from "components/Tables/Table.jsx"
 import { bindActionCreators } from "redux";
-import moment from "moment";
 import { connect } from "react-redux";
 import {deleteAdminsAction} from "../../store/actions/adminsActions.jsx"
 

@@ -1,0 +1,27 @@
+[debug] [2019-11-12T03:49:00.415Z] ----------------------------------------------------------------------
+[debug] [2019-11-12T03:49:00.418Z] Command:       /usr/bin/node /usr/local/bin/firebase deploy
+[debug] [2019-11-12T03:49:00.418Z] CLI Version:   7.7.0
+[debug] [2019-11-12T03:49:00.418Z] Platform:      linux
+[debug] [2019-11-12T03:49:00.418Z] Node Version:  v10.15.2
+[debug] [2019-11-12T03:49:00.418Z] Time:          Tue Nov 12 2019 09:19:00 GMT+0530 (India Standard Time)
+[debug] [2019-11-12T03:49:00.418Z] ----------------------------------------------------------------------
+[debug] [2019-11-12T03:49:00.418Z] 
+[debug] [2019-11-12T03:49:00.446Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-11-12T03:49:00.447Z] > authorizing via signed-in user
+[debug] [2019-11-12T03:49:00.448Z] [iam] checking project vote-app-uom for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2019-11-12T03:49:00.452Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-11-12T03:49:00.453Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-11-12T03:49:00.911Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-12T03:49:00.978Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/vote-app-uom:testIamPermissions  
+
+[debug] [2019-11-12T03:49:02.759Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-12T03:49:02.763Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/vote-app-uom  
+ 
+[debug] [2019-11-12T03:49:03.578Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'vote-app-uom'...
+[info] 
+[info] i  deploying hosting
+[debug] [2019-11-12T03:49:03.588Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/vote-app-uom/versions  
+
